@@ -1078,6 +1078,12 @@ export default function App() {
     if (contentRef.current) contentRef.current.scrollTop = 0;
   }, [page]);
 
+  useEffect(() => {
+    const handleOpenAdmin = () => { setIsAdmin(true); setPage("admin-dashboard"); };
+    window.addEventListener("open-admin", handleOpenAdmin);
+    return () => window.removeEventListener("open-admin", handleOpenAdmin);
+  }, []);
+
   const mainTabs = [
     { id: "home", label: "Home", icon: Home },
     { id: "classes", label: "Classes", icon: Wind },

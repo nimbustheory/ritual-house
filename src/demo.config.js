@@ -20,7 +20,7 @@ export const DEMO_CONFIG = {
     {
       title: "Admin Dashboard",
       description: "Real-time analytics for your Capitol Hill studio. Track attendance across 8 class styles, monitor revenue, manage your teaching roster of 14+ instructors, and broadcast announcements. Everything to run Ritual House from one place.",
-      icon: "LayoutDashboard",
+      icon: "Shield",
     },
     {
       title: "Built for Ritual House",
