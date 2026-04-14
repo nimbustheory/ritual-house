@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   Home, Calendar, TrendingUp, Users, CreditCard, CalendarDays,
   Menu, X, Bell, Settings, Shield, ChevronRight, ChevronDown, Clock,
@@ -1126,10 +1127,13 @@ export default function App() {
   const isMoreActive = moreItems.some(item => item.id === page);
   const unreadCount = 2;
 
+  // ——— ADMIN: rendered via Portal into #admin-root (outside phone frame entirely) ———
   if (isAdmin) {
-    return (
+    const adminEl = document.getElementById("admin-root");
+    if (!adminEl) return null;
+    return createPortal(
       <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-        <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", background: "#f3f4f6" }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 99999, display: "flex", fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", background: "#f3f4f6" }}>
           <aside style={{ width: 240, background: "#ffffff", borderRight: "1px solid #e5e7eb", display: "flex", flexDirection: "column", flexShrink: 0 }}>
             <div style={{ padding: "16px 14px", borderBottom: "1px solid #e5e7eb" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1149,14 +1153,18 @@ export default function App() {
           </aside>
           <main style={{ flex: 1, padding: 24, overflow: "auto" }}>{renderPage()}</main>
         </div>
-      </AppContext.Provider>
+      </AppContext.Provider>,
+      adminEl
     );
   }
 
+  // ——— CONSUMER: phone mockup layout with pinned bottom nav ———
   return (
     <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-      <div style={{ position: "absolute", inset: 0, background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif" }}>
-        <header style={{ position: "absolute", top: 0, left: 0, right: 0, height: 54, boxSizing: "border-box", background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
+      <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif" }}>
+
+        {/* Top header bar */}
+        <div style={{ position: "relative", zIndex: 30, background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Young Serif', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1169,12 +1177,17 @@ export default function App() {
             <button onClick={() => setShowNotifications(true)} style={{ padding: 8, borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", color: "#fff", position: "relative" }}><Bell size={20} />{unreadCount > 0 && <span style={{ position: "absolute", top: 4, right: 4, width: 14, height: 14, borderRadius: "50%", background: T.accent, fontSize: 9, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>{unreadCount}</span>}</button>
             <button onClick={() => setShowSettings(true)} style={{ padding: 8, borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", color: "#fff" }}><Settings size={20} /></button>
           </div>
-        </header>
+        </div>
 
-        <main ref={contentRef} style={{ position: "absolute", top: 54, bottom: 50, left: 0, right: 0, overflowY: "auto", overflowX: "hidden" }}>{renderPage()}</main>
+        {/* Scrollable content area — height = remaining space minus 64px nav */}
+        <div ref={contentRef} style={{ overflowY: "auto", height: "calc(100% - 64px)", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
+          <style>{`.app-scroll::-webkit-scrollbar { display: none; }`}</style>
+          {renderPage()}
+        </div>
 
-        <nav style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, boxSizing: "border-box", background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
-          <div style={{ display: "flex", justifyContent: "space-around", padding: "6px 4px 10px" }}>
+        {/* Bottom navigation — pinned, never scrolls */}
+        <nav style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 64, background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 50, boxSizing: "border-box" }}>
+          <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", height: "100%" }}>
             {mainTabs.map(tab => {
               const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
               return (
@@ -1186,9 +1199,10 @@ export default function App() {
           </div>
         </nav>
 
+        {/* More menu overlay */}
         {showMore && (
-          <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 40 }}>
-            <div onClick={e => e.stopPropagation()} style={{ position: "absolute", bottom: 68, left: 16, right: 16, background: T.bgCard, borderRadius: 16, padding: "14px 12px", boxShadow: "0 8px 32px rgba(0,0,0,.15)" }}>
+          <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 60 }}>
+            <div onClick={e => e.stopPropagation()} style={{ position: "absolute", bottom: 72, left: 16, right: 16, background: T.bgCard, borderRadius: 16, padding: "14px 12px", boxShadow: "0 8px 32px rgba(0,0,0,.15)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 6px 8px" }}><span style={{ fontFamily: "'Young Serif', serif", fontSize: 20, fontWeight: 600 }}>More</span><button onClick={() => setShowMore(false)} style={{ padding: 4, borderRadius: 6, border: "none", background: "transparent", cursor: "pointer" }}><X size={18} color={T.textMuted} /></button></div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {moreItems.map(item => {

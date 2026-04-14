@@ -76,9 +76,11 @@ export default function DemoWrapper() {
             {/* Screen container */}
             <div style={{
               width: 390, height: 780, borderRadius: 28, overflow: "hidden", background: "#0e0e16",
-              position: "relative"
+              position: "relative", height: 780
             }}>
-              <App />
+              <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
+                <App />
+              </div>
             </div>
             {/* Home indicator */}
             <div style={{ width: 134, height: 5, background: "#3a3a44", borderRadius: 3, margin: "8px auto 4px" }} />
