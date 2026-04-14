@@ -64,7 +64,7 @@ export default function DemoWrapper() {
       </aside>
 
       {/* ——— CENTER: PHONE FRAME ——— */}
-      <main style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: 32, paddingBottom: 32, marginLeft: 320, marginRight: 340 }}>
+      <main style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: 32, paddingBottom: 32, marginLeft: 320, marginRight: 340, overflow: "hidden" }}>
         <div style={{ position: "relative" }}>
           {/* Phone chrome */}
           <div style={{
@@ -78,7 +78,7 @@ export default function DemoWrapper() {
               width: 390, height: 780, borderRadius: 28, overflow: "hidden", background: "#0e0e16",
               position: "relative", transform: "translateZ(0)"
             }}>
-              <div style={{ width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" }}>
+              <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
                 <App />
               </div>
             </div>

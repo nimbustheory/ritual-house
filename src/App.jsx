@@ -223,7 +223,7 @@ function PageHero({ image, fallback, title, subtitle }) {
       )}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,.05) 50%, rgba(0,0,0,.15) 100%)" }} />
       <div style={{ position: "relative", padding: "80px 20px 24px", display: "flex", flexDirection: "column", justifyContent: "flex-end", minHeight: 240 }}>
-        <h1 style={{ fontFamily: "'Young Serif', serif", fontSize: 34, fontWeight: 600, color: "#fff", margin: 0, lineHeight: 1.1 }}>{title}</h1>
+        <h1 style={{ fontFamily: "'Young Serif', serif", fontSize: 28, fontWeight: 600, color: "#fff", margin: 0, lineHeight: 1.1, wordBreak: "break-word", overflowWrap: "break-word" }}>{title}</h1>
         {subtitle && <p style={{ fontSize: 13, color: "rgba(255,255,255,.75)", margin: "6px 0 0", maxWidth: 280 }}>{subtitle}</p>}
       </div>
     </div>
@@ -1155,7 +1155,7 @@ export default function App() {
 
   return (
     <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-      <div style={{ display: "flex", flexDirection: "column", height: "100%", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", position: "relative" }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
         <header style={{ flexShrink: 0, background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Young Serif', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
@@ -1171,7 +1171,7 @@ export default function App() {
           </div>
         </header>
 
-        <main ref={contentRef} style={{ flex: 1, overflowY: "auto", paddingBottom: 70 }}>{renderPage()}</main>
+        <main ref={contentRef} style={{ flex: 1, overflowY: "auto", overflowX: "hidden", paddingBottom: 16 }}>{renderPage()}</main>
 
         {showMore && (
           <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 40 }}>
@@ -1187,7 +1187,7 @@ export default function App() {
           </div>
         )}
 
-        <nav style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
+        <nav style={{ flexShrink: 0, background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
           <div style={{ display: "flex", justifyContent: "space-around", padding: "6px 4px 10px" }}>
             {mainTabs.map(tab => {
               const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
