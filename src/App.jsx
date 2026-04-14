@@ -1155,8 +1155,8 @@ export default function App() {
 
   return (
     <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-      <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateRows: "auto 1fr auto", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", overflow: "hidden" }}>
-        <header style={{ background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
+      <div style={{ position: "absolute", inset: 0, background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif" }}>
+        <header style={{ position: "absolute", top: 0, left: 0, right: 0, height: 54, boxSizing: "border-box", background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Young Serif', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1171,7 +1171,20 @@ export default function App() {
           </div>
         </header>
 
-        <main ref={contentRef} style={{ overflowY: "auto", overflowX: "hidden", minHeight: 0, paddingBottom: 16 }}>{renderPage()}</main>
+        <main ref={contentRef} style={{ position: "absolute", top: 54, bottom: 50, left: 0, right: 0, overflowY: "auto", overflowX: "hidden" }}>{renderPage()}</main>
+
+        <nav style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, boxSizing: "border-box", background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
+          <div style={{ display: "flex", justifyContent: "space-around", padding: "6px 4px 10px" }}>
+            {mainTabs.map(tab => {
+              const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
+              return (
+                <button key={tab.id} onClick={() => tab.id === "more" ? setShowMore(true) : setPage(tab.id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, padding: "6px 12px", borderRadius: 10, border: "none", background: "transparent", cursor: "pointer", color: active ? T.accent : T.textFaint }}>
+                  <tab.icon size={20} strokeWidth={active ? 2.5 : 2} /><span style={{ fontSize: 10, fontWeight: active ? 700 : 500 }}>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
 
         {showMore && (
           <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 40 }}>
@@ -1186,19 +1199,6 @@ export default function App() {
             </div>
           </div>
         )}
-
-        <nav style={{ background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
-          <div style={{ display: "flex", justifyContent: "space-around", padding: "6px 4px 10px" }}>
-            {mainTabs.map(tab => {
-              const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
-              return (
-                <button key={tab.id} onClick={() => tab.id === "more" ? setShowMore(true) : setPage(tab.id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, padding: "6px 12px", borderRadius: 10, border: "none", background: "transparent", cursor: "pointer", color: active ? T.accent : T.textFaint }}>
-                  <tab.icon size={20} strokeWidth={active ? 2.5 : 2} /><span style={{ fontSize: 10, fontWeight: active ? 700 : 500 }}>{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </nav>
 
         {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
         {showNotifications && <NotificationsModal onClose={() => setShowNotifications(false)} />}
