@@ -15,7 +15,7 @@ export default function DemoWrapper() {
   const accentDark = c.accentDark;
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#08080c", fontFamily: "'Outfit', system-ui, sans-serif", color: "#e0dcd4" }}>
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden", background: "#08080c", fontFamily: "'Outfit', system-ui, sans-serif", color: "#e0dcd4" }}>
 
       {/* ——— LEFT SIDEBAR ——— */}
       <aside style={{ width: 320, flexShrink: 0, background: "#0d0d14", borderRight: "1px solid #1a1a24", display: "flex", flexDirection: "column", position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 10, overflowY: "auto" }}>

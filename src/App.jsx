@@ -1155,8 +1155,8 @@ export default function App() {
 
   return (
     <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-      <div style={{ display: "flex", flexDirection: "column", height: "100%", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
-        <header style={{ flexShrink: 0, background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
+      <div style={{ display: "grid", gridTemplateRows: "auto 1fr auto", height: "100%", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
+        <header style={{ background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Young Serif', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1171,7 +1171,7 @@ export default function App() {
           </div>
         </header>
 
-        <main ref={contentRef} style={{ flex: 1, overflowY: "auto", overflowX: "hidden", paddingBottom: 16 }}>{renderPage()}</main>
+        <main ref={contentRef} style={{ overflowY: "auto", overflowX: "hidden", minHeight: 0, paddingBottom: 16 }}>{renderPage()}</main>
 
         {showMore && (
           <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 40 }}>
@@ -1187,7 +1187,7 @@ export default function App() {
           </div>
         )}
 
-        <nav style={{ flexShrink: 0, background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
+        <nav style={{ background: T.bgCard, borderTop: `1px solid ${T.border}`, zIndex: 30 }}>
           <div style={{ display: "flex", justifyContent: "space-around", padding: "6px 4px 10px" }}>
             {mainTabs.map(tab => {
               const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
