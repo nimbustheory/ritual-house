@@ -1155,7 +1155,7 @@ export default function App() {
 
   return (
     <AppContext.Provider value={{ page, setPage, classRegistrations, registerForClass, openReservation, feedCelebrations, celebrateFeed }}>
-      <div style={{ display: "grid", gridTemplateRows: "auto 1fr auto", height: "100%", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateRows: "auto 1fr auto", background: T.bgDim, fontFamily: "'Be Vietnam Pro', system-ui, sans-serif", overflow: "hidden" }}>
         <header style={{ background: T.bg, color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 30 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Young Serif', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
