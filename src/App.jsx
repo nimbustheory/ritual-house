@@ -358,7 +358,7 @@ function HomePage() {
 
   return (
     <div>
-      <PageHero image={STUDIO_IMAGES.home} fallback={GRADIENTS.home} title={<>{STUDIO_CONFIG.heroLine1}<br/><span style={{ color: T.accent, fontStyle: "italic" }}>{STUDIO_CONFIG.heroLine2}</span></>} subtitle={<>Community-rooted multi-style yoga on Capitol Hill.<br/>Warmed to 75-78 degrees.<br/>Free mat rental. Feels like home.</>} />
+      <PageHero image={STUDIO_IMAGES.home} fallback={GRADIENTS.home} title={<>{STUDIO_CONFIG.heroLine1}<br/><span style={{ color: T.accent, fontStyle: "italic" }}>{STUDIO_CONFIG.heroLine2}</span></>} subtitle={<>Community-rooted multi-style yoga on Capitol Hill. Warmed to 75-78 degrees.<br/>Free mat rental. Feels like home.</>} />
 
       <section style={{ padding: "0 16px", marginTop: -16, position: "relative", zIndex: 10 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
